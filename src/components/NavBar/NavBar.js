@@ -1,12 +1,13 @@
 import React from "react";
 import './NavBar.css'
+import { Link } from 'react-router-dom';
 
 export function NavBar() {
   return (
     <nav>
-      <p>Home</p>
-      <p>New Ticket</p>
-      <p>Log Out</p>
+       <Link to="/dashboard"><p>Home</p></Link> 
+       <Link to="/detail"><p>New Ticket</p></Link>
+       <Link to="/"><p>Log Out</p></Link>
     </nav>
   );
 }
