@@ -1,0 +1,8 @@
+nav {
+    display: flex;
+    align-items: flex-start;
+    justify-content: flex-start;
+}
+p {
+    padding: 10px;
+}

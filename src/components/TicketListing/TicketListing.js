@@ -1,9 +1,9 @@
 import React from "react";
-import { TicketHeader } from "../TicketHeader";
-import "./DashBoard.css";
+import { TicketHeader } from "../TicketHeader/TicketHeader";
+import "./TicketListing.css";
 import { exampleTickets } from "../../util/exampleTickets";
 
-export function DashBoard(props) {
+export function TicketListing(props) {
   const tickets = exampleTickets;
 
   return (
@@ -18,14 +18,7 @@ export function DashBoard(props) {
           <th>Submitted By</th>
         </tr>
       </thead>
-      {tickets.map(ticket => <TicketHeader
-      ticketNum={ticket.ticketNum} 
-      dateSubmitted={ticket.dateSubmitted}
-      issue={ticket.issue}
-      status={ticket.status}
-      category={ticket.category}
-      submittedBy={ticket.submittedBy}
-      />)}
+      {tickets.map(ticket => <TicketHeader {...ticket}/>)}
     </table>
   );
 }
