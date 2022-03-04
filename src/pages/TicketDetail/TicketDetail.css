@@ -11,9 +11,12 @@
 }
 
 input[type=text] {
-    height: 200px;
+    height: 20px;
     width: 700px;
     margin-top: 5px;
     margin-bottom: 5px;
     margin-left: 10px;
+}
+#issueDetails{
+    height: 200px;
 }

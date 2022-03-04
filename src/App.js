@@ -20,7 +20,7 @@ function App() {
           </Route>
         </Switch>
         
-        <Route path="/detail">
+        <Route path="/detail/:ticketNum?">
           <TicketDetail />
         </Route>
         <Route path="/dashboard">
