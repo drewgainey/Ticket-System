@@ -1,9 +1,10 @@
 import React, { useState } from "react";
-import { Redirect } from "react-router-dom";
+import { useHistory } from "react-router-dom";
 import { categories } from "../../util/categories";
 import { exampleTickets } from "../../util/exampleTickets";
 
 export function NewTicketDetail(props) {
+  const history = useHistory();
   const [category, setCategory] = useState("");
   const [issue, setIssue] = useState("");
   const [issueDetails, setIssueDetails] = useState("");
@@ -19,6 +20,7 @@ export function NewTicketDetail(props) {
   const newTicketNum = exampleTickets[numOfTickets - 1].ticketNum + 1;
   const status = "Pending";
 
+
   const handleCategoryChange = (event) => {
     setCategory(event.target.value);
   };
@@ -32,6 +34,7 @@ export function NewTicketDetail(props) {
     event.preventDefault();
     if (issue === "" || category === "" || issueDetails === "") {
       alert("Please enter the required fields");
+      return;
     }
     //needs to be updated to add the ticket to the database
     exampleTickets.push({
@@ -44,7 +47,7 @@ export function NewTicketDetail(props) {
       submittedBy: "drewgainey@gmail.com",
       comments: [],
     });
-    return <Redirect to={`/detail/${newTicketNum}`}/>;
+    history.push(`/detail/${newTicketNum}`);
   };
 
   return (

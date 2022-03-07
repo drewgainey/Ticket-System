@@ -18,7 +18,7 @@ input[type=text] {
     margin-left: 10px;
 }
 #issueDetails{
-    height: 200px;
+    height: 50px;
 }
 
 .commentDetail, th, td {
