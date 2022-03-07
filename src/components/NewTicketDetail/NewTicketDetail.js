@@ -42,6 +42,7 @@ export function NewTicketDetail(props) {
       status: status,
       category: category,
       submittedBy: "drewgainey@gmail.com",
+      comments: [],
     });
     return <Redirect to={`/detail/${newTicketNum}`}/>;
   };
