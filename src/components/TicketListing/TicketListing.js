@@ -2,10 +2,12 @@ import React from "react";
 import { TicketHeader } from "../TicketHeader/TicketHeader";
 import "./TicketListing.css";
 import { exampleTickets } from "../../util/exampleTickets";
+import { getAllTickets } from "../../api/ticketsAPI"
 
 export function TicketListing(props) {
   const tickets = exampleTickets;
-
+  const asyncTickets = getAllTickets();
+  
   return (
     <table>
       <thead>
@@ -18,7 +20,7 @@ export function TicketListing(props) {
           <th>Submitted By</th>
         </tr>
       </thead>
-      {tickets.map(ticket => <TicketHeader {...ticket}/>)}
+      {tickets.map(ticket => <TicketHeader {...ticket} />)}
     </table>
   );
 }

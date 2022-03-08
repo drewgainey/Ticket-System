@@ -17,7 +17,7 @@ export function TicketDetail(props) {
   return (
     <>
       {header}
-      {ticketNum ? <CommentList /> : <p>NewTicketDetail</p>}
+      {ticketNum ? <CommentList /> : <></>}
     </>
   );
 }

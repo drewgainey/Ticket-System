@@ -1,6 +1,7 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useHistory } from "react-router-dom";
-import { categories } from "../../util/categories";
+import { getCategories } from "../../api/categoriesAPI";
+import { addNewTicket } from "../../api/ticketsAPI";
 import { exampleTickets } from "../../util/exampleTickets";
 
 export function NewTicketDetail(props) {
@@ -8,7 +9,7 @@ export function NewTicketDetail(props) {
   const [category, setCategory] = useState("");
   const [issue, setIssue] = useState("");
   const [issueDetails, setIssueDetails] = useState("");
-  const ticketCategories = categories;
+  
   const date = new Date();
   const [month, day, year] = [
     date.getMonth() + 1,
@@ -20,6 +21,9 @@ export function NewTicketDetail(props) {
   const newTicketNum = exampleTickets[numOfTickets - 1].ticketNum + 1;
   const status = "Pending";
 
+  //fetch ticket categories from API
+  const [ticketCategories, setTicketCategories] = useState(["AP"]); 
+ 
 
   const handleCategoryChange = (event) => {
     setCategory(event.target.value);
@@ -36,7 +40,7 @@ export function NewTicketDetail(props) {
       alert("Please enter the required fields");
       return;
     }
-    //needs to be updated to add the ticket to the database
+    // keep the push to example tickets for now just for testing front end
     exampleTickets.push({
       ticketNum: newTicketNum,
       dateSubmitted: formattedDate,
@@ -47,6 +51,10 @@ export function NewTicketDetail(props) {
       submittedBy: "drewgainey@gmail.com",
       comments: [],
     });
+    async function submitTicket() {
+      await addNewTicket(newTicketNum, formattedDate, issue, issueDetails, category);
+    }
+    submitTicket();
     history.push(`/detail/${newTicketNum}`);
   };
 

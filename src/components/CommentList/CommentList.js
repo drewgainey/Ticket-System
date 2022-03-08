@@ -1,12 +1,24 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { CommentDetail } from "../CommentDetail/CommentDetail";
 import { useParams } from "react-router-dom";
 import { exampleTickets } from "../../util/exampleTickets";
+import { addComment, getComments } from "../../api/commentsAPI";
 
 export function CommentList(props) {
   const { ticketNum } = useParams();
   const ticketIndex = ticketNum - 1;
-  const ticketComments = exampleTickets[ticketIndex].comments;
+  const [comment, setComment] = useState("");
+  // const [ticketComments, setTicketComments] = useState([]);
+  //fetch ticket comments from API
+  let ticketComments = exampleTickets[ticketIndex].comments;
+  // useEffect(() => {
+  //   async function fetchComments() {
+  //     const comments = await getComments(ticketNum);
+  //     setTicketComments(comments);
+  //   }
+  //   fetchComments()
+  // }, [ticketNum]);
+
 
   const date = new Date();
   const [month, day, year] = [
@@ -16,20 +28,23 @@ export function CommentList(props) {
   ];
   const formattedDate = `${month}/${day}/${year}`;
 
-  const [comment, setComment] = useState("");
-
   const handleCommentChange = (event) => {
     setComment(event.target.value);
   };
 
   const handleClick = (event) => {
     event.preventDefault();
+    // keeping for now just for front end testing right now
     exampleTickets[ticketIndex].comments.push({
       date: formattedDate,
       user: "drewgainey@gmail.com",
       notes: comment,
     });
-    setComment('');
+    async function submitComment() {
+      await addComment(ticketNum, formattedDate, comment);
+    }
+    submitComment();
+    setComment("");
   };
 
   return (
