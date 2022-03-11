@@ -1,30 +1,33 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
+import { useQuery } from "react-query";
 import { useHistory } from "react-router-dom";
-import { getCategories } from "../../api/categoriesAPI";
 import { addNewTicket } from "../../api/ticketsAPI";
 import { exampleTickets } from "../../util/exampleTickets";
+import { getCategories } from "../../api/categoriesAPI";
+import { dateFormat } from "../../util/dateFormat";
+import { nextTicketNumber } from "../../util/ticketHelperFunctions";
 
 export function NewTicketDetail(props) {
   const history = useHistory();
   const [category, setCategory] = useState("");
   const [issue, setIssue] = useState("");
   const [issueDetails, setIssueDetails] = useState("");
-  
-  const date = new Date();
-  const [month, day, year] = [
-    date.getMonth() + 1,
-    date.getDate(),
-    date.getFullYear(),
-  ];
-  const formattedDate = `${month}/${day}/${year}`;
-  const numOfTickets = exampleTickets.length;
-  const newTicketNum = exampleTickets[numOfTickets - 1].ticketNum + 1;
+
+  const formattedDate = dateFormat();
+  //need to finish implementing this
+  const newTicketNum = nextTicketNumber();
   const status = "Pending";
 
-  //fetch ticket categories from API
-  const [ticketCategories, setTicketCategories] = useState(["AP"]); 
- 
+  //React Query to get categories for tickets
+  const { isLoading, error, data } = useQuery("categories", getCategories);
 
+  if (isLoading) return 'Loading...'
+ 
+  if (error) return 'An error has occurred: ' + error.message
+
+  const ticketCategories = data;
+
+  //update state on changes to the form
   const handleCategoryChange = (event) => {
     setCategory(event.target.value);
   };
@@ -34,6 +37,8 @@ export function NewTicketDetail(props) {
   const handleIssueDetailsChange = (event) => {
     setIssueDetails(event.target.value);
   };
+
+  //submit the ticket to the API
   const handleSubmit = (event) => {
     event.preventDefault();
     if (issue === "" || category === "" || issueDetails === "") {
@@ -52,7 +57,13 @@ export function NewTicketDetail(props) {
       comments: [],
     });
     async function submitTicket() {
-      await addNewTicket(newTicketNum, formattedDate, issue, issueDetails, category);
+      await addNewTicket(
+        newTicketNum,
+        formattedDate,
+        issue,
+        issueDetails,
+        category
+      );
     }
     submitTicket();
     history.push(`/detail/${newTicketNum}`);

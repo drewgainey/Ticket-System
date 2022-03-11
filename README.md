@@ -15,7 +15,7 @@ This project was created to solve a problem at my current job. As the financial 
 
 * [React.js](https://reactjs.org/)
 * [React Router](https://reactrouter.com/)
-* [Redux](https://redux.js.org/)
+* [React Query](//https://react-query.tanstack.com/)
 * [Node.js](https://nodejs.org/en/)
 * [Express.js](https://expressjs.com/)
 * [MongoDB](https://www.mongodb.com/)

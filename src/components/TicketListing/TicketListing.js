@@ -1,13 +1,22 @@
 import React from "react";
 import { TicketHeader } from "../TicketHeader/TicketHeader";
 import "./TicketListing.css";
-import { exampleTickets } from "../../util/exampleTickets";
-import { getAllTickets } from "../../api/ticketsAPI"
+import { getAllTickets } from "../../api/ticketsAPI";
+import { useQuery } from "react-query";
 
 export function TicketListing(props) {
-  const tickets = exampleTickets;
-  const asyncTickets = getAllTickets();
-  
+  const { isLoading, error, data } = useQuery("tickets", () =>
+    fetch("http://localhost:3001/api/tickets").then(
+      (res) => res.json()
+    )
+  );
+
+  if (isLoading) return "Loading...";
+
+  if (error) return "An error has occurred: " + error.message;
+
+  const tickets = data;
+
   return (
     <table>
       <thead>
@@ -20,7 +29,9 @@ export function TicketListing(props) {
           <th>Submitted By</th>
         </tr>
       </thead>
-      {tickets.map(ticket => <TicketHeader {...ticket} />)}
+      {tickets.map((ticket) => (
+        <TicketHeader {...ticket} />
+      ))}
     </table>
   );
 }
