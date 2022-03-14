@@ -1,10 +1,22 @@
 import React from "react";
-import { useParams } from 'react-router-dom';
-import { exampleTickets } from "../../util/exampleTickets";
+import { useParams } from "react-router-dom";
+import { useQuery } from "react-query";
 
 export function ActiveTicketDetail(props) {
+  //get ticket data from API
   const { ticketNum } = useParams();
-  const currentTicket = exampleTickets[ticketNum - 1];
+  const { isLoading, error, data } = useQuery("ticket", () =>
+    fetch(`http://localhost:3001/api/tickets/${ticketNum}`).then((res) =>
+      res.json()
+    )
+  );
+
+  if (isLoading) return "Loading...";
+
+  if (error) return "An error has occurred: " + error.message;
+  //I'm not sure why this returns as an array. Find out how this is working more specifically
+  const currentTicket = data[0];
+
 
   return (
     <>

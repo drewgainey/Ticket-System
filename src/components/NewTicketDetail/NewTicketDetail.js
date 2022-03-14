@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import { useQuery } from "react-query";
 import { useHistory } from "react-router-dom";
 import { addNewTicket } from "../../api/ticketsAPI";
-import { exampleTickets } from "../../util/exampleTickets";
 import { getCategories } from "../../api/categoriesAPI";
 import { dateFormat } from "../../util/dateFormat";
 import { nextTicketNumber } from "../../util/ticketHelperFunctions";
@@ -45,17 +44,8 @@ export function NewTicketDetail(props) {
       alert("Please enter the required fields");
       return;
     }
-    // keep the push to example tickets for now just for testing front end
-    exampleTickets.push({
-      ticketNum: newTicketNum,
-      dateSubmitted: formattedDate,
-      issue: issue,
-      issueDetails: issueDetails,
-      status: status,
-      category: category,
-      submittedBy: "drewgainey@gmail.com",
-      comments: [],
-    });
+   //when there is a duplicate ticketnumber an error is thrown in the backend 
+   //however this isn't evident to the user. Needs to make it so there is a new ticket num that is correct
     async function submitTicket() {
       await addNewTicket(
         newTicketNum,

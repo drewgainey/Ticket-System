@@ -1,32 +1,28 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { CommentDetail } from "../CommentDetail/CommentDetail";
 import { useParams } from "react-router-dom";
-import { exampleTickets } from "../../util/exampleTickets";
 import { addComment, getComments } from "../../api/commentsAPI";
+import { dateFormat } from "../../util/dateFormat";
+import { useQuery } from "react-query";
 
 export function CommentList(props) {
-  const { ticketNum } = useParams();
-  const ticketIndex = ticketNum - 1;
   const [comment, setComment] = useState("");
-  // const [ticketComments, setTicketComments] = useState([]);
-  //fetch ticket comments from API
-  let ticketComments = exampleTickets[ticketIndex].comments;
-  // useEffect(() => {
-  //   async function fetchComments() {
-  //     const comments = await getComments(ticketNum);
-  //     setTicketComments(comments);
-  //   }
-  //   fetchComments()
-  // }, [ticketNum]);
+  const { ticketNum } = useParams();
+  const { isLoading, error, data } = useQuery("comments", () => {
+    fetch(`http://localhost:3001/api/tickets/59/getComments`).then(
+      (res) => res.json()
+    );
+  });
 
+  if (isLoading) return "Loading...";
 
-  const date = new Date();
-  const [month, day, year] = [
-    date.getMonth() + 1,
-    date.getDate(),
-    date.getFullYear(),
-  ];
-  const formattedDate = `${month}/${day}/${year}`;
+  if (error) return "An error has occurred: " + error.message;
+  //let ticketComments = exampleTickets[ticketIndex].comments;
+  console.log(isLoading);
+  console.log(error);
+  console.log(data);
+  const ticketComments = data[0];
+  const formattedDate = dateFormat();
 
   const handleCommentChange = (event) => {
     setComment(event.target.value);
@@ -34,12 +30,6 @@ export function CommentList(props) {
 
   const handleClick = (event) => {
     event.preventDefault();
-    // keeping for now just for front end testing right now
-    exampleTickets[ticketIndex].comments.push({
-      date: formattedDate,
-      user: "drewgainey@gmail.com",
-      notes: comment,
-    });
     async function submitComment() {
       await addComment(ticketNum, formattedDate, comment);
     }
