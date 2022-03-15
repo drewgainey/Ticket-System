@@ -1,40 +1,39 @@
 import React, { useState } from "react";
 import { CommentDetail } from "../CommentDetail/CommentDetail";
 import { useParams } from "react-router-dom";
-import { addComment, getComments } from "../../api/commentsAPI";
+import { addComment } from "../../api/commentsAPI";
 import { dateFormat } from "../../util/dateFormat";
 import { useQuery } from "react-query";
 
 export function CommentList(props) {
   const [comment, setComment] = useState("");
   const { ticketNum } = useParams();
-  const { isLoading, error, data } = useQuery("comments", () => {
-    fetch(`http://localhost:3001/api/tickets/59/getComments`).then(
-      (res) => res.json()
-    );
-  });
+  const { isLoading, error, data } = useQuery("commentList", () =>
+  fetch(`http://localhost:3001/api/tickets/${ticketNum}/getComments`).then(
+    (res) => res.json()
+  ));
 
   if (isLoading) return "Loading...";
 
   if (error) return "An error has occurred: " + error.message;
-  //let ticketComments = exampleTickets[ticketIndex].comments;
-  console.log(isLoading);
-  console.log(error);
-  console.log(data);
-  const ticketComments = data[0];
-  const formattedDate = dateFormat();
 
+  const ticketComments = data[0].comments;
+  const formattedDate = dateFormat();
+  console.log(ticketComments);
   const handleCommentChange = (event) => {
     setComment(event.target.value);
   };
 
   const handleClick = (event) => {
     event.preventDefault();
+    if (comment === "") {
+      return;
+    }
     async function submitComment() {
-      await addComment(ticketNum, formattedDate, comment);
+      await addComment(ticketNum, comment);
+      setComment("");
     }
     submitComment();
-    setComment("");
   };
 
   return (
@@ -45,7 +44,7 @@ export function CommentList(props) {
         <th scope="col">User</th>
       </tr>
       {ticketComments.map((comment, i) => (
-        <CommentDetail ticketNum={ticketNum} commentNum={i} />
+        <CommentDetail {...comment} />
       ))}
       <tr>
         <th scope="row">{formattedDate}</th>
