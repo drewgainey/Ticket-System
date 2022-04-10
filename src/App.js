@@ -5,6 +5,7 @@ import { SignIn } from "./pages/SignIn/SignIn";
 import { TicketDashBoard } from "./pages/TicketDashBoard/TicketDashBoard";
 import { TicketDetail } from "./pages/TicketDetail/TicketDetail";
 import { QueryClient, QueryClientProvider } from "react-query";
+import  Home  from "./pages/Home";
 
 const queryClient = new QueryClient();
 
@@ -29,6 +30,9 @@ function App() {
           </Route>
           <Route path="/dashboard">
             <TicketDashBoard />
+          </Route>
+          <Route path="/home">
+            <Home />
           </Route>
         </Router>
       </div>

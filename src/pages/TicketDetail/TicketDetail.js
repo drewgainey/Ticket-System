@@ -3,7 +3,6 @@ import { useParams } from "react-router-dom";
 import { ActiveTicketDetail } from "../../components/ActiveTicketDetail/ActiveTicketDetail";
 import { CommentList } from "../../components/CommentList/CommentList";
 import { NewTicketDetail } from "../../components/NewTicketDetail/NewTicketDetail";
-import "./TicketDetail.css";
 
 export function TicketDetail(props) {
   const { ticketNum } = useParams();

@@ -1,21 +1,14 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { TicketHeader } from "../TicketHeader/TicketHeader";
-import "./TicketListing.css";
-import { getAllTickets } from "../../api/ticketsAPI";
-import { useQuery } from "react-query";
 
 export function TicketListing(props) {
-  const { isLoading, error, data } = useQuery("tickets", () =>
-    fetch("http://localhost:3001/api/tickets").then(
-      (res) => res.json()
-    )
-  );
+  const [tickets, setTickets] = useState([]);
 
-  if (isLoading) return "Loading...";
-
-  if (error) return "An error has occurred: " + error.message;
-
-  const tickets = data;
+  useEffect(() => {
+    fetch("http://localhost:3001/api/tickets")
+      .then((res) => res.json())
+      .then((data) => setTickets(data))
+  },[]);
 
   return (
     <table>
