@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
 import TableCell from "@mui/material/TableCell";
@@ -9,8 +9,8 @@ import Paper from "@mui/material/Paper";
 import TablePagination from "@mui/material/TablePagination";
 import { Link } from "react-router-dom";
 
-const OpenTickets = ({ tickets }) => {
-// const [rowsPerPage, setRowsPerPage] = useState(10);
+const OpenTickets = ({ tickets, page, handleOnPageChange, rowsPerPage, handleOnRowsPerPageChange }) => {
+  
   const createData = ({
     ticketNum,
     issue,
@@ -25,18 +25,10 @@ const OpenTickets = ({ tickets }) => {
     return createData(ticket);
   });
 
-  tickets.forEach((ticket) => {
-    rows.push(createData(ticket));
-    rows.push(createData(ticket));
-    rows.push(createData(ticket));
-    rows.push(createData(ticket));
-    rows.push(createData(ticket));
-  });
-
   return (
     <>
       <TableContainer component={Paper}>
-        <Table sx={{ minWidth: 650 }}  stickyHeader={true}>
+        <Table sx={{ minWidth: 650 }} stickyHeader={true}>
           <TableHead>
             <TableRow>
               <TableCell>Ticket #</TableCell>
@@ -47,7 +39,9 @@ const OpenTickets = ({ tickets }) => {
             </TableRow>
           </TableHead>
           <TableBody>
-            {rows.map((row) => (
+            {rows
+            .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+            .map((row) => (
               <TableRow
                 key={row._id}
                 sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
@@ -64,11 +58,14 @@ const OpenTickets = ({ tickets }) => {
           </TableBody>
         </Table>
       </TableContainer>
-      <TablePagination
-        rowsPerPage="5"
-        component="div"
+      <TablePagination 
+        rowsPerPageOptions={[5, 10, 50]}
+        component="div" 
         count={rows.length}
-      />
+        rowsPerPage={rowsPerPage}
+        page={page}
+        onPageChange={handleOnPageChange}
+        onRowsPerPageChange={handleOnRowsPerPageChange} />
     </>
   );
 };
