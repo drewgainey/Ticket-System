@@ -1,11 +1,11 @@
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import "./App.css";
-import { NavBar } from "./components/NavBar/NavBar";
 import { SignIn } from "./pages/SignIn/SignIn";
 import { TicketDashBoard } from "./pages/TicketDashBoard/TicketDashBoard";
 import { TicketDetail } from "./pages/TicketDetail/TicketDetail";
 import { QueryClient, QueryClientProvider } from "react-query";
-import  Home  from "./pages/Home";
+import Home from "./pages/Home";
+import SupportTicket from "./pages/SupportTicket";
 
 const queryClient = new QueryClient();
 
@@ -20,11 +20,13 @@ function App() {
             <Route exact path="/">
               <SignIn />
             </Route>
-            <Route>
+            {/* <Route>
               <NavBar />
-            </Route>
+            </Route> */}
           </Switch>
-
+          <Route path="/new">
+            <SupportTicket />
+          </Route>
           <Route path="/detail/:ticketNum?">
             <TicketDetail />
           </Route>

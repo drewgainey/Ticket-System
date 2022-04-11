@@ -6,9 +6,11 @@ import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
-import { Link } from 'react-router-dom';
+import TablePagination from "@mui/material/TablePagination";
+import { Link } from "react-router-dom";
 
 const OpenTickets = ({ tickets }) => {
+// const [rowsPerPage, setRowsPerPage] = useState(10);
   const createData = ({
     ticketNum,
     issue,
@@ -23,36 +25,51 @@ const OpenTickets = ({ tickets }) => {
     return createData(ticket);
   });
 
+  tickets.forEach((ticket) => {
+    rows.push(createData(ticket));
+    rows.push(createData(ticket));
+    rows.push(createData(ticket));
+    rows.push(createData(ticket));
+    rows.push(createData(ticket));
+  });
+
   return (
-    <TableContainer component={Paper}>
-      <Table sx={{ minWidth: 650 }} aria-label="simple table">
-        <TableHead>
-          <TableRow>
-            <TableCell>Ticket #</TableCell>
-            <TableCell align="left">Issue</TableCell>
-            <TableCell align="left">Category</TableCell>
-            <TableCell align="left">Status</TableCell>
-            <TableCell align="left">Submitted By</TableCell>
-          </TableRow>
-        </TableHead>
-        <TableBody>
-          {rows.map((row) => (
-            <TableRow
-              key={row._id}
-              sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
-            >
-              <TableCell component={Link} to={`/detail/${row.ticketNum}`}>
-                  {row.ticketNum}
-              </TableCell>
-              <TableCell align="left">{row.issue}</TableCell>
-              <TableCell align="left">{row.category}</TableCell>
-              <TableCell align="left">{row.status}</TableCell>
-              <TableCell align="left">{row.submittedBy}</TableCell>
+    <>
+      <TableContainer component={Paper}>
+        <Table sx={{ minWidth: 650 }}  stickyHeader={true}>
+          <TableHead>
+            <TableRow>
+              <TableCell>Ticket #</TableCell>
+              <TableCell align="left">Issue</TableCell>
+              <TableCell align="left">Category</TableCell>
+              <TableCell align="left">Status</TableCell>
+              <TableCell align="left">Submitted By</TableCell>
             </TableRow>
-          ))}
-        </TableBody>
-      </Table>
-    </TableContainer>
+          </TableHead>
+          <TableBody>
+            {rows.map((row) => (
+              <TableRow
+                key={row._id}
+                sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
+              >
+                <TableCell component={Link} to={`/detail/${row.ticketNum}`}>
+                  {row.ticketNum}
+                </TableCell>
+                <TableCell align="left">{row.issue}</TableCell>
+                <TableCell align="left">{row.category}</TableCell>
+                <TableCell align="left">{row.status}</TableCell>
+                <TableCell align="left">{row.submittedBy}</TableCell>
+              </TableRow>
+            ))}
+          </TableBody>
+        </Table>
+      </TableContainer>
+      <TablePagination
+        rowsPerPage="5"
+        component="div"
+        count={rows.length}
+      />
+    </>
   );
 };
 

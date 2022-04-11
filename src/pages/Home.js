@@ -1,8 +1,10 @@
 import React, { useState, useEffect } from "react";
+import { NavBar } from "../components/NavBar/NavBar";
 import OpenTickets from "../components/OpenTickets";
 
 const Home = () => {
   const [tickets, setTickets] = useState([]);
+  const pageTitle = "Open Tickets";
 
   useEffect(() => {
     fetch("http://localhost:3001/api/tickets")
@@ -12,6 +14,7 @@ const Home = () => {
 
   return (
     <>
+      <NavBar pageTitle={pageTitle}/>
       <OpenTickets tickets={tickets}/>
     </>
   );
