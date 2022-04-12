@@ -1,6 +1,6 @@
 import React from "react";
 import { NavBar } from "../components/NavBar/NavBar";
-import NewTicket from "../components/NewTicket";
+import { NewTicket } from "../components/NewTicket";
 
 const SupportTicket = () => {
   const pageTitle = "New Ticket";
