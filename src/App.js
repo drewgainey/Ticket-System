@@ -1,11 +1,10 @@
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
-import "./App.css";
-import { SignIn } from "./pages/SignIn/SignIn";
 import { TicketDashBoard } from "./pages/TicketDashBoard/TicketDashBoard";
 import { TicketDetail } from "./pages/TicketDetail/TicketDetail";
 import { QueryClient, QueryClientProvider } from "react-query";
 import Home from "./pages/Home";
 import SupportTicket from "./pages/SupportTicket";
+import LogInSignUp from "./pages/LogInSignUp";
 
 const queryClient = new QueryClient();
 
@@ -18,11 +17,8 @@ function App() {
          NavBar should render for all other paths */}
           <Switch>
             <Route exact path="/">
-              <SignIn />
+              <LogInSignUp/>      
             </Route>
-            {/* <Route>
-              <NavBar />
-            </Route> */}
           </Switch>
           <Route path="/new">
             <SupportTicket />
