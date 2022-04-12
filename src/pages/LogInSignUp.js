@@ -29,6 +29,8 @@ function TabPanel(props) {
 
 const LogInSignUp = () => {
   const [value, setValue] = useState(0);
+  const [validUser, setValidUser] = useState(false);
+
   const handleChange = (e, newValue) => {
     setValue(newValue);
   };
@@ -50,10 +52,10 @@ const LogInSignUp = () => {
         <Tab label="Sign Up" style={{width: 160}}/>
       </Tabs>
       <TabPanel value={value} index={0}>
-        <LogIn />
+        <LogIn validUser={validUser} />
       </TabPanel>
       <TabPanel value={value} index={1}>
-        <SignUp />
+        <SignUp validUser={validUser}/>
       </TabPanel>
     </Paper>
   );

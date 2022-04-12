@@ -10,7 +10,7 @@ import Checkbox from "@mui/material/Checkbox";
 import Button from "@mui/material/Button";
 import { Link } from "react-router-dom";
 
-const LogIn = () => {
+const LogIn = ({ validUser, handleLogin }) => {
   const paperStyle = {
     padding: 20,
     height: "70vh",
@@ -21,7 +21,7 @@ const LogIn = () => {
     <Grid>
       <Paper elevation={10} style={paperStyle}>
         <Grid align="center">
-          <Avatar style={{ backgroundColor: "#1976d2"}}>
+          <Avatar style={{ backgroundColor: "#1976d2" }}>
             <LockOutlinedIcon />
           </Avatar>
           <Typography variant="h4" style={{ fontWeight: "bold" }}>
@@ -48,7 +48,14 @@ const LogIn = () => {
           control={<Checkbox color="primary" />}
           label="Remember Me"
         />
-        <Button variant="contained" color="primary" type="submit" fullWidth component={Link} to="/home">
+        <Button
+          variant="contained"
+          color="primary"
+          type="submit"
+          fullWidth
+          component={Link}
+          to="/home"
+        >
           Sign In
         </Button>
         {/* <Typography>Forgot Password?</Typography> */}
