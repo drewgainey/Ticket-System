@@ -66,49 +66,55 @@ export function NewTicket(props) {
     margin: "10 auto",
   };
   return (
-    <Grid align="center">
-      <Paper style={paperStyle} elevation={10}>
-        <Typography variant="h4" style={{ fontWeight: "bold" }}>
-          New Ticket
-        </Typography>
-        <FormControl fullWidth>
-          <InputLabel id="category-select-label">Category</InputLabel>
-          <Select
-            labelId="category-select-label"
-            id="category-select"
-            value={category}
-            label="Category"
-            onChange={handleCategoryChange}
+      <Grid align="center">
+        <Paper style={paperStyle} elevation={10}>
+          <Typography variant="h4" style={{ fontWeight: "bold" }}>
+            New Ticket
+          </Typography>
+          <FormControl fullWidth>
+            <InputLabel id="category-select-label">Category</InputLabel>
+            <Select
+              labelId="category-select-label"
+              id="category-select"
+              value={category}
+              label="Category"
+              onChange={handleCategoryChange}
+            >
+              {categoriesList.map((cat) => (
+                <MenuItem value={cat}>{cat}</MenuItem>
+              ))}
+            </Select>
+          </FormControl>
+          <TextField
+            variant="standard"
+            label="Issue"
+            placeholder="Brief Descrption of Issue"
+            value={issue}
+            onChange={handleIssueChange}
+            fullWidth
+            required
+          />
+          <TextField
+            variant="outlined"
+            label="Issue Details"
+            placeholder="Please Include All Relevant Details Of The Issue"
+            value={issueDetails}
+            onChange={handleIssueDetailsChange}
+            multiline
+            rows={4}
+            fullWidth
+            required
+          />
+          <Button
+            variant="contained"
+            color="primary"
+            type="submit"
+            onClick={handleSubmit}
+            fullWidth
           >
-            {categoriesList.map((cat) => (
-              <MenuItem value={cat}>{cat}</MenuItem>
-            ))}
-          </Select>
-        </FormControl>
-        <TextField
-          variant="standard"
-          label="Issue"
-          placeholder="Brief Descrption of Issue"
-          value={issue}
-          onChange={handleIssueChange}
-          fullWidth
-          required
-        />
-        <TextField
-          variant="outlined"
-          label="Issue Details"
-          placeholder="Please Include All Relevant Details Of The Issue"
-          value={issueDetails}
-          onChange={handleIssueDetailsChange}
-          multiline
-          rows={4}
-          fullWidth
-          required
-        />
-        <Button variant="contained" color="primary" type="submit" onClick={handleSubmit} fullWidth>
-          Submit Ticket
-        </Button>
-      </Paper>
-    </Grid>
+            Submit Ticket
+          </Button>
+        </Paper>
+      </Grid>
   );
 }

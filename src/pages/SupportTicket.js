@@ -1,5 +1,5 @@
 import React from "react";
-import { NavBar } from "../components/NavBar/NavBar";
+import { NavBar } from "../components/NavBar/NavBarMenuDrawer";
 import { NewTicket } from "../components/NewTicket";
 
 const SupportTicket = () => {
@@ -7,7 +7,7 @@ const SupportTicket = () => {
     
   return (
     <>
-      <NavBar pageTitle={pageTitle}/>
+      {false && <NavBar pageTitle={pageTitle}/>}
       <NewTicket />
     </>
   );

@@ -29,11 +29,28 @@ function TabPanel(props) {
 
 const LogInSignUp = () => {
   const [value, setValue] = useState(0);
-  const [validUser, setValidUser] = useState(false);
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [passwordConfirm, setPasswordConfirm] = useState("");
+  const [registrationCode, setRegistrationCode] = useState("");
+  const [error, setError] = useState('');
+  const [loading, setLoading] = useState(false);
 
   const handleChange = (e, newValue) => {
     setValue(newValue);
   };
+  const handleEmailChange = (e) => {
+    setEmail(e.target.value);
+  };
+  const handlePasswordChange = (e) => {
+    setPassword(e.target.value);
+  };
+  const handlePasswordConfirmChange = (e) => {
+    setPasswordConfirm(e.target.value);
+  };
+  const handleRegistrationCodeChange = (e) => {
+    setRegistrationCode(e.target.value);
+  }
 
   const paperStyle = {
     width: 320,
@@ -48,14 +65,36 @@ const LogInSignUp = () => {
         textColor="primary"
         onChange={handleChange}
       >
-        <Tab label="Sign In" style={{width: 160}}/>
-        <Tab label="Sign Up" style={{width: 160}}/>
+        <Tab label="Sign In" style={{ width: 160 }} />
+        <Tab label="Sign Up" style={{ width: 160 }} />
       </Tabs>
       <TabPanel value={value} index={0}>
-        <LogIn validUser={validUser} />
+        <LogIn
+          email={email}
+          password={password}
+          handleEmailChange={handleEmailChange}
+          handlePasswordChange={handlePasswordChange}
+          error={error}
+          setError={setError}
+          loading={loading}
+          setLoading={setLoading}
+        />
       </TabPanel>
       <TabPanel value={value} index={1}>
-        <SignUp validUser={validUser}/>
+        <SignUp
+          email={email}
+          password={password}
+          passwordConfirm={passwordConfirm}
+          handleEmailChange={handleEmailChange}
+          handlePasswordChange={handlePasswordChange}
+          handlePasswordConfirmChange={handlePasswordConfirmChange}
+          registrationCode={registrationCode}
+          handleRegistrationCodeChange={handleRegistrationCodeChange}
+          error={error}
+          setError={setError}
+          loading={loading}
+          setLoading={setLoading}
+        />
       </TabPanel>
     </Paper>
   );

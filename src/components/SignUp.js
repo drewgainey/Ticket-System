@@ -1,4 +1,6 @@
 import React from "react";
+import { useAuth } from "../contexts/AuthContext";
+import { useHistory } from "react-router-dom"
 import Grid from "@mui/material/Grid";
 import Paper from "@mui/material/Paper";
 import Typography from "@mui/material/Typography";
@@ -6,9 +8,53 @@ import Avatar from "@mui/material/Avatar";
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
-import { Link } from "react-router-dom";
+import Alert from '@mui/material/Alert';
 
-const SignUp = () => {
+const SignUp = ({
+  email,
+  password,
+  passwordConfirm,
+  handleEmailChange,
+  handlePasswordChange,
+  handlePasswordConfirmChange,
+  registrationCode,
+  handleRegistrationCodeChange,
+  error,
+  setError,
+  loading,
+  setLoading
+}) => {
+  const { signup } = useAuth();
+  const history = useHistory();
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    if (email === '') {
+      return setError('Please Enter a Valid Email');
+    }
+    if (password === '') {
+      return setError('Please Enter a Valid Password');
+    }
+    if (password.length < 6) {
+      return setError('Password Must be Atleast 6 characters Long')
+    }
+    if (password !== passwordConfirm) {
+      return setError('Passwords Do Not Match');
+    }
+    if(registrationCode === '') {
+      return setError('Please Enter Your Registration Code');
+    }
+
+    try {
+      setError('');
+      setLoading(true);
+      await signup(email, password, registrationCode);
+    } catch {
+      setError('Failed to Create Account Please Check Registration Code');
+      setLoading(false);
+    }
+    history.push('/home')
+  };
   const paperStyle = {
     padding: 20,
     height: "70vh",
@@ -31,6 +77,8 @@ const SignUp = () => {
           variant="standard"
           label="Email"
           placeholder="Enter Email"
+          value={email}
+          onChange={handleEmailChange}
           fullWidth
           required
         />
@@ -39,6 +87,8 @@ const SignUp = () => {
           label="Password"
           placeholder="Enter Password"
           type="password"
+          value={password}
+          onChange={handlePasswordChange}
           fullWidth
           required
         />
@@ -47,6 +97,17 @@ const SignUp = () => {
           label="Confirm Password"
           placeholder="Confirm Password"
           type="password"
+          value={passwordConfirm}
+          onChange={handlePasswordConfirmChange}
+          fullWidth
+          required
+        />
+        <TextField
+          variant="standard"
+          label="Registration Code"
+          placeholder="Registration Code"
+          value={registrationCode}
+          onChange={handleRegistrationCodeChange}
           fullWidth
           required
         />
@@ -55,12 +116,13 @@ const SignUp = () => {
           color="primary"
           type="submit"
           fullWidth
-          component={Link}
-          to="/home"
-          style={{marginTop: "10px"}}
+          onClick={handleSubmit}
+          style={{ marginTop: "10px" }}
+          disabled={loading}
         >
-         Create Account
+          Create Account
         </Button>
+        {error && <Alert severity="error" onClose={() => setError('')} sx={{marginTop: '10px'}}>{error}</Alert>}
       </Paper>
     </Grid>
   );

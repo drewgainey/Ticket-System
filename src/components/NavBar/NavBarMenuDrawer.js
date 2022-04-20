@@ -1,13 +1,21 @@
 import React, { useState } from "react";
+import { useAuth } from "../../contexts/AuthContext";
+import { useHistory } from 'react-router-dom';
 import { AppBar, Toolbar, Typography, Button, IconButton } from "@mui/material";
 import MenuIcon from '@mui/icons-material/Menu';
-import { Link } from 'react-router-dom';
-import MenuDrawer from '../MenuDrawer'
+import MenuDrawer from '../MenuDrawer';
 
 export function NavBar({pageTitle}) {
   const [menuOpen, setMenuOpen] = useState(false);  
   const handleClick = () => {
       setMenuOpen((prev) => !prev);
+  }
+  const { signout } = useAuth();
+  const history = useHistory();
+
+  const handleLogOut = () => {
+    signout();
+    history.push("/");
   }
   return (
     <AppBar position="sticky">
@@ -25,7 +33,7 @@ export function NavBar({pageTitle}) {
       <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
         {pageTitle}
       </Typography>
-      <Button color="inherit" component={Link} to="/">Logout</Button>
+      <Button color="inherit" onClick={handleLogOut}>Logout</Button>
       <MenuDrawer menuOpen={menuOpen} closeMenu={handleClick}></MenuDrawer>
     </Toolbar>
   </AppBar>
