@@ -11,6 +11,7 @@ import Button from "@mui/material/Button";
 import { addNewTicket } from "../api/ticketsAPI";
 import { useHistory } from "react-router-dom";
 import { dateFormat } from "../util/dateFormat";
+import { useAuth } from '../contexts/AuthContext';
 
 export function NewTicket(props) {
   const history = useHistory();
@@ -18,6 +19,7 @@ export function NewTicket(props) {
   const [category, setCategory] = useState("");
   const [issue, setIssue] = useState("");
   const [issueDetails, setIssueDetails] = useState("");
+  const { currentUser } = useAuth();
 
   useEffect(() => {
     fetch("http://localhost:3001/api/categories")
@@ -39,7 +41,7 @@ export function NewTicket(props) {
   const handleSubmit = (event) => {
     event.preventDefault();
     const formattedDate = dateFormat();
-    const newTicketNum = 102;
+    const newTicketNum = 103;
     if (issue === "" || category === "" || issueDetails === "") {
       alert("Please enter the required fields");
       return;
@@ -52,7 +54,8 @@ export function NewTicket(props) {
         formattedDate,
         issue,
         issueDetails,
-        category
+        category,
+        currentUser.email
       );
     }
     submitTicket();

@@ -22,7 +22,7 @@ const Home = () => {
       .then((res) => res.json())
       .then((data) => setTickets(data));
   }, []);
-
+  
   return (
     <>
       <NavBar pageTitle={pageTitle} />

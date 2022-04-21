@@ -5,7 +5,8 @@ export const addNewTicket = async (
   dateSubmitted,
   issue,
   issueDetails,
-  category
+  category,
+  submittedBy
 ) => {
   const response = await fetch(`${rootURL}/tickets`, {
     method: "POST",
@@ -14,7 +15,7 @@ export const addNewTicket = async (
       issue: issue,
       issueDetails: issueDetails,
       category: category,
-      submittedBy: "drewgainey@gmail.com",
+      submittedBy: submittedBy,
       comments: [],
     }),
     headers: {
