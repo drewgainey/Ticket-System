@@ -10,7 +10,6 @@ import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
 import { addNewTicket } from "../api/ticketsAPI";
 import { useHistory } from "react-router-dom";
-import { dateFormat } from "../util/dateFormat";
 import { useAuth } from '../contexts/AuthContext';
 
 export function NewTicket(props) {
@@ -40,7 +39,7 @@ export function NewTicket(props) {
   //submit the ticket to the API
   const handleSubmit = (event) => {
     event.preventDefault();
-    const formattedDate = dateFormat();
+    const formattedDate = "4/21/2022";
     const newTicketNum = 103;
     if (issue === "" || category === "" || issueDetails === "") {
       alert("Please enter the required fields");

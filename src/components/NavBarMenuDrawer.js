@@ -1,9 +1,9 @@
 import React, { useState } from "react";
-import { useAuth } from "../../contexts/AuthContext";
+import { useAuth } from "../contexts/AuthContext";
 import { useHistory } from 'react-router-dom';
 import { AppBar, Toolbar, Typography, Button, IconButton } from "@mui/material";
 import MenuIcon from '@mui/icons-material/Menu';
-import MenuDrawer from '../MenuDrawer';
+import MenuDrawer from './MenuDrawer';
 
 export function NavBar({pageTitle}) {
   const [menuOpen, setMenuOpen] = useState(false);  

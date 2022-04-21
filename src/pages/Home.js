@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { NavBar } from "../components/NavBar/NavBarMenuDrawer";
+import { NavBar } from "../components/NavBarMenuDrawer";
 import OpenTickets from "../components/OpenTickets";
 
 const Home = () => {

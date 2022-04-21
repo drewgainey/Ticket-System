@@ -1,5 +1,5 @@
 import React from "react";
-import { NavBar } from "../components/NavBar/NavBarMenuDrawer";
+import { NavBar } from "../components/NavBarMenuDrawer";
 import { NewTicket } from "../components/NewTicket";
 
 const SupportTicket = () => {
