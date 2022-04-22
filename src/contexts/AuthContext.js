@@ -18,7 +18,7 @@ export const AuthProvider = ({ children }) => {
   const [loading, setLoading] = useState(true);
 
   const signup = (email, password, authCode) => {
-    if(authCode !== process.env.REACT_APP_FIREBASE_AUTH_CODE) {
+    if(authCode !== 'DEMO2022') {
         throw new Error();
     }
     return createUserWithEmailAndPassword(auth, email, password);

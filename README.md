@@ -14,11 +14,9 @@ This project was created to solve a problem at my current job. As the financial 
 ### Built With
 
 * [React.js](https://reactjs.org/)
+* [Material UI](https://mui.com)
 * [React Router](https://reactrouter.com/)
-* [React Query](//https://react-query.tanstack.com/)
-* [Node.js](https://nodejs.org/en/)
-* [Express.js](https://expressjs.com/)
-* [MongoDB](https://www.mongodb.com/)
+* [Firebase Authentication ](https://firebase.google.com/docs/auth)
 
 
 <p align="right">(<a href="#top">back to top</a>)</p>

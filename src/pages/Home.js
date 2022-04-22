@@ -21,8 +21,8 @@ const Home = () => {
     fetch("http://localhost:3001/api/tickets")
       .then((res) => res.json())
       .then((data) => setTickets(data));
-  }, []);
-  
+    }, []);
+
   return (
     <>
       <NavBar pageTitle={pageTitle} />
