@@ -8,6 +8,7 @@ import FormControl from "@mui/material/FormControl";
 import Select from "@mui/material/Select";
 import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
+import Alert from '@mui/material/Alert';
 import { addNewTicket } from "../api/ticketsAPI";
 import { useHistory } from "react-router-dom";
 import { useAuth } from "../contexts/AuthContext";
@@ -17,8 +18,11 @@ export function NewTicket(props) {
   const [categoriesList, setCategoriesList] = useState([]);
   const [nextTicketNumber, setNextTicketNumber] = useState();
   const [category, setCategory] = useState("");
+  const [priority, setPriority] = useState("");
   const [issue, setIssue] = useState("");
   const [issueDetails, setIssueDetails] = useState("");
+  const [error, setError] = useState('');
+  const [loading, setLoading] = useState(false);
   const { currentUser } = useAuth();
 
   useEffect(() => {
@@ -44,6 +48,9 @@ export function NewTicket(props) {
   const handleCategoryChange = (event) => {
     setCategory(event.target.value);
   };
+  const handlePriorityChange = (event) => {
+    setPriority(event.target.value);
+  };
   const handleIssueChange = (event) => {
     setIssue(event.target.value);
   };
@@ -53,10 +60,19 @@ export function NewTicket(props) {
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    if (issue === "" || category === "" || issueDetails === "") {
-      alert("Please enter the required fields");
-      return;
+    if(category === '') {
+      return setError('Please Enter a Category');
     }
+    if(priority === '') {
+      return setError('Please Select a Priority');
+    }
+    if(issue === '') {
+      return setError('Please Enter a Brief Description of The Issue');
+    }
+    if(issueDetails === '') {
+      return setError('Please Enter the Details of The Issue');
+    }
+
     const dateFormat = () => {
       const date = new Date();
       const [month, day, year] = [
@@ -89,66 +105,92 @@ export function NewTicket(props) {
     margin: "20px auto",
   };
 
+  const priorities = ["Critical", "High", "Medium", "Low"];
+
   return (
     <Grid container align="center">
       <Paper style={paperStyle} elevation={10}>
         <Typography variant="h4" style={{ fontWeight: "bold" }}>
           New Ticket
         </Typography>
-        <Grid item align="left">
-          <Typography>
-            Contact Email:{" "}
-            <TextField placeholder={currentUser.email} disabled />
+        <Grid item style={{ margin: "20px auto" }}>
+          <Typography variant="p">
+            Obi-wan dooku organa hutt kenobi. Fisto calrissian fisto organa
+            windu mon. Skywalker mandalore jade mace windu jawa solo. Solo
+            kamino dagobah watto moff moff jade lando dooku. Bespin obi-wan mon
+            skywalker padmé mon antilles grievous calrissian. Hoth leia amidala
+            wookiee fett fett dagobah skywalker.{" "}
           </Typography>
         </Grid>
-        <Grid item align="left">
-          <Typography>Priority</Typography>
+        <Grid container spacing={2} align="left">
+          <Grid xs={6} item>
+            <FormControl fullWidth>
+              <InputLabel id="priority-select-label">Priority</InputLabel>
+              <Select
+                labelId="priority-select-label"
+                id="priority-select"
+                value={priority}
+                label="Priority"
+                onChange={handlePriorityChange}
+              >
+                {priorities.map((priority) => (
+                  <MenuItem value={priority}>{priority}</MenuItem>
+                ))}
+              </Select>
+            </FormControl>
+          </Grid>
+          <Grid xs={6} item>
+            <FormControl fullWidth>
+              <InputLabel id="category-select-label">Category</InputLabel>
+              <Select
+                labelId="category-select-label"
+                id="category-select"
+                value={category}
+                label="Category"
+                onChange={handleCategoryChange}
+              >
+                {categoriesList.map((cat) => (
+                  <MenuItem value={cat}>{cat}</MenuItem>
+                ))}
+              </Select>
+            </FormControl>
+          </Grid>
         </Grid>
-        <Grid item align="left">
-        <FormControl fullWidth>
-          <InputLabel id="category-select-label">Category</InputLabel>
-          <Select
-            labelId="category-select-label"
-            id="category-select"
-            value={category}
-            label="Category"
-            onChange={handleCategoryChange}
-          >
-            {categoriesList.map((cat) => (
-              <MenuItem value={cat}>{cat}</MenuItem>
-            ))}
-          </Select>
-        </FormControl>
+        <Grid item style={{ margin: "20px auto" }}>
+          <TextField
+            variant="standard"
+            label="Issue"
+            placeholder="Brief Descrption of Issue"
+            value={issue}
+            onChange={handleIssueChange}
+            fullWidth
+            required
+          />
         </Grid>
-        <TextField
-          variant="standard"
-          label="Issue"
-          placeholder="Brief Descrption of Issue"
-          value={issue}
-          onChange={handleIssueChange}
-          fullWidth
-          required
-        />
-        <TextField
-          variant="outlined"
-          label="Issue Details"
-          placeholder="Please Include All Relevant Details Of The Issue"
-          value={issueDetails}
-          onChange={handleIssueDetailsChange}
-          multiline
-          rows={4}
-          fullWidth
-          required
-        />
+        <Grid item style={{ margin: "20px auto" }}>
+          <TextField
+            variant="outlined"
+            label="Issue Details"
+            placeholder="Please Include All Relevant Details Of The Issue"
+            value={issueDetails}
+            onChange={handleIssueDetailsChange}
+            multiline
+            rows={4}
+            fullWidth
+            required
+          />
+        </Grid>
         <Button
           variant="contained"
           color="primary"
           type="submit"
           onClick={handleSubmit}
+          disabled={loading}
           fullWidth
         >
           Submit Ticket
         </Button>
+        {error && <Alert severity="error" onClose={() => setError('')} sx={{marginTop: '10px'}}>{error}</Alert>}
       </Paper>
     </Grid>
   );

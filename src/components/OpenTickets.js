@@ -7,7 +7,6 @@ import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
 import TablePagination from "@mui/material/TablePagination";
-import { Link } from "react-router-dom";
 
 const OpenTickets = ({ tickets, page, handleOnPageChange, rowsPerPage, handleOnRowsPerPageChange }) => {
   
@@ -46,9 +45,7 @@ const OpenTickets = ({ tickets, page, handleOnPageChange, rowsPerPage, handleOnR
                 key={row._id}
                 sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
               >
-                <TableCell component={Link} to={`/detail/${row.ticketNum}`}>
-                  {row.ticketNum}
-                </TableCell>
+                <TableCell align="left">{row.ticketNum}</TableCell>
                 <TableCell align="left">{row.issue}</TableCell>
                 <TableCell align="left">{row.category}</TableCell>
                 <TableCell align="left">{row.status}</TableCell>
