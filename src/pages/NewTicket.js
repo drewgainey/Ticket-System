@@ -58,7 +58,7 @@ export function NewTicket(props) {
     setIssueDetails(event.target.value);
   };
 
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
     if(category === '') {
       return setError('Please Enter a Category');
@@ -84,7 +84,9 @@ export function NewTicket(props) {
     };
     const formattedDate = dateFormat();
     //when there is a duplicate ticketnumber an error is thrown in the backen however this isn't evident to the user
-    async function submitTicket() {
+    try {
+      setError('');
+      setLoading(true);
       await addNewTicket(
         nextTicketNumber,
         formattedDate,
@@ -93,8 +95,12 @@ export function NewTicket(props) {
         category,
         currentUser.email
       );
+      setLoading(false);
     }
-    submitTicket();
+    catch {
+      setLoading(false);
+      return setError('Ticket Failed to Submit');
+    }
     history.push(`/home`);
   };
 
@@ -113,13 +119,9 @@ export function NewTicket(props) {
         <Typography variant="h4" style={{ fontWeight: "bold" }}>
           New Ticket
         </Typography>
-        <Grid item style={{ margin: "20px auto" }}>
+        <Grid item style={{ margin: "20px auto"}}>
           <Typography variant="p">
-            Obi-wan dooku organa hutt kenobi. Fisto calrissian fisto organa
-            windu mon. Skywalker mandalore jade mace windu jawa solo. Solo
-            kamino dagobah watto moff moff jade lando dooku. Bespin obi-wan mon
-            skywalker padmé mon antilles grievous calrissian. Hoth leia amidala
-            wookiee fett fett dagobah skywalker.{" "}
+            Please fill out the below form and include all relvant information to the issue you are having {" "}
           </Typography>
         </Grid>
         <Grid container spacing={2} align="left">
@@ -189,6 +191,15 @@ export function NewTicket(props) {
           fullWidth
         >
           Submit Ticket
+        </Button>
+        <Button
+          variant="contained"
+          color="primary"
+          onClick={() => history.push('/home')}
+          fullWidth
+          style={{marginTop: '10px'}}
+        >
+          Close
         </Button>
         {error && <Alert severity="error" onClose={() => setError('')} sx={{marginTop: '10px'}}>{error}</Alert>}
       </Paper>

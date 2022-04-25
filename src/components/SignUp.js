@@ -49,6 +49,7 @@ const SignUp = ({
       setError('');
       setLoading(true);
       await signup(email, password, registrationCode);
+      setLoading(false);
     } catch {
       setError('Failed to Create Account Please Check Registration Code');
       setLoading(false);
