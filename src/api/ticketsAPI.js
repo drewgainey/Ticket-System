@@ -5,6 +5,7 @@ export const addNewTicket = async (
   dateSubmitted,
   issue,
   issueDetails,
+  priority,
   category,
   submittedBy
 ) => {
@@ -12,8 +13,10 @@ export const addNewTicket = async (
     method: "POST",
     body: JSON.stringify({
       ticketNum: ticketNum,
+      dateSubmitted: dateSubmitted,
       issue: issue,
       issueDetails: issueDetails,
+      priority: priority,
       category: category,
       submittedBy: submittedBy,
       comments: [],

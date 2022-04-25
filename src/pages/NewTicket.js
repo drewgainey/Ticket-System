@@ -36,7 +36,7 @@ export function NewTicket(props) {
       .then((res) => res.json())
       .then((data) => {
         setNextTicketNumber(
-          data.reduce((prev, current) =>
+          data.reduce((prev, current) => 
             prev.ticketNum > current.ticketNum
               ? prev.ticketNum
               : current.ticketNum
@@ -92,6 +92,7 @@ export function NewTicket(props) {
         formattedDate,
         issue,
         issueDetails,
+        priority,
         category,
         currentUser.email
       );

@@ -8,7 +8,7 @@ import Card from "@mui/material/Card";
 const Home = () => {
   const [tickets, setTickets] = useState([]);
   const [page, setPage] = useState(0);
-  const [rowsPerPage, setRowsPerPage] = useState(5);
+  const [rowsPerPage, setRowsPerPage] = useState(10);
   const [categoriesList, setCategoriesList] = useState([]);
   const pageTitle = "Open Tickets";
 
@@ -52,6 +52,9 @@ const Home = () => {
               handleOnPageChange={handleOnPageChange}
               rowsPerPage={rowsPerPage}
               handleOnRowsPerPageChange={handleOnRowsPerPageChange}
+              title="Open Tickets Listing"
+              selectRowsPP={false}
+              defaultRowsPP={10}
             />
           </Card>
         </Grid>

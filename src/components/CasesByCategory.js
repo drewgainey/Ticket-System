@@ -1,4 +1,5 @@
 import React from "react";
+import { useState, useEffect } from "react";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
 import TableCell from "@mui/material/TableCell";
@@ -6,49 +7,67 @@ import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
+import Typography from "@mui/material/Typography";
+import Toolbar from "@mui/material/Toolbar";
 
 const CasesByCategory = ({ tickets, categoriesList }) => {
+  const [categoryStats, setCategoryStats] = useState([]);
 
-//create buckets of categories and priorities    
-const categoryStats = [];
-categoriesList.forEach((cat) => {
-    categoryStats.push({
-        category: cat,
-        open: 0,
-        critical: 0,
-        high: 0,
-        medium: 0,
-        low: 0,
-    });
-}); 
+  const countTicketsByCategory = (category) => {
+    return tickets.filter(
+      (ticket) => ticket.category.toLowerCase() === category.toLowerCase()
+    ).length;
+  };
 
-//go through each ticket and increase the apropriate bucket count by 1
-tickets.forEach((ticket) => {
-    let statsArrIndex = categoriesList.indexOf(ticket.category);
-});
+  const countTicketsByCategoryAndStatus = (category, status) => {
+    const filterByCategory = tickets.filter(
+      (ticket) => ticket.category.toLowerCase() === category.toLowerCase()
+    );
+    const filterByCategoryAndPriority = filterByCategory.filter(
+      (ticket) => ticket.status.toLowerCase() === status.toLowerCase()
+    );
+    return filterByCategoryAndPriority.length;
+  };
+
+  useEffect(() => {
+    setCategoryStats(
+      categoriesList.map((cat) => {
+        return {
+          category: cat,
+          open: countTicketsByCategory(cat),
+          escalated: countTicketsByCategoryAndStatus(cat, "escalated"),
+          inProgress: countTicketsByCategoryAndStatus(cat, "In Progress"),
+          unreviewed: countTicketsByCategoryAndStatus(cat, "unreviewed"),
+        };
+      })
+    );
+  }, [categoriesList]);
 
   return (
     <TableContainer component={Paper}>
+      <Toolbar sx={{ backgroundColor: "primary.main" }}>
+        <Typography variant="h6" style={{color:"#f3e5f5"}}>
+          Open Tickets By Category
+        </Typography>
+      </Toolbar>
       <Table sx={{ minWidth: 650 }} stickyHeader={true}>
         <TableHead>
           <TableRow>
             <TableCell>Category</TableCell>
-            <TableCell align="left">Open</TableCell>
-            <TableCell align="left">Critical</TableCell>
-            <TableCell align="left">High</TableCell>
-            <TableCell align="left">Medium</TableCell>
-            <TableCell align="left">Low</TableCell>
+            <TableCell align="center">Open</TableCell>
+            <TableCell align="center">Escalated</TableCell>
+            <TableCell align="center">In Progress</TableCell>
+            <TableCell align="center">Unreviewed</TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
           {categoryStats.map((cat) => (
             <TableRow>
               <TableCell align="left">{cat.category}</TableCell>
-              <TableCell align="left">{cat.open}</TableCell>
-              <TableCell align="left">{cat.critical}</TableCell>
-              <TableCell align="left">{cat.high}</TableCell>
-              <TableCell align="left">{cat.medium}</TableCell>
-              <TableCell align="left">{cat.low}</TableCell>
+              <TableCell align="center">{cat.open}</TableCell>
+              <TableCell align="center">{cat.escalated}</TableCell>
+              <TableCell align="center">{cat.inProgress}</TableCell>
+              <TableCell align="center">{cat.unreviewed}</TableCell>
             </TableRow>
           ))}
         </TableBody>

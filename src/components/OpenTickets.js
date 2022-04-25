@@ -7,9 +7,19 @@ import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
 import TablePagination from "@mui/material/TablePagination";
+import Typography from "@mui/material/Typography";
+import Toolbar from "@mui/material/Toolbar";
 
-const OpenTickets = ({ tickets, page, handleOnPageChange, rowsPerPage, handleOnRowsPerPageChange }) => {
-  
+const OpenTickets = ({
+  tickets,
+  page,
+  handleOnPageChange,
+  rowsPerPage,
+  handleOnRowsPerPageChange,
+  title,
+  selectRowsPP,
+  defaultRowsPP,
+}) => {
   const createData = ({
     ticketNum,
     issue,
@@ -27,6 +37,11 @@ const OpenTickets = ({ tickets, page, handleOnPageChange, rowsPerPage, handleOnR
   return (
     <>
       <TableContainer component={Paper}>
+        <Toolbar sx={{ backgroundColor: "primary.main" }}>
+          <Typography variant="h6" style={{ color: "#f3e5f5" }}>
+            {title}
+          </Typography>
+        </Toolbar>
         <Table sx={{ minWidth: 650 }} stickyHeader={true}>
           <TableHead>
             <TableRow>
@@ -39,30 +54,35 @@ const OpenTickets = ({ tickets, page, handleOnPageChange, rowsPerPage, handleOnR
           </TableHead>
           <TableBody>
             {rows
-            .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-            .map((row) => (
-              <TableRow
-                key={row._id}
-                sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
-              >
-                <TableCell align="left">{row.ticketNum}</TableCell>
-                <TableCell align="left">{row.issue}</TableCell>
-                <TableCell align="left">{row.category}</TableCell>
-                <TableCell align="left">{row.status}</TableCell>
-                <TableCell align="left">{row.submittedBy}</TableCell>
-              </TableRow>
-            ))}
+              .slice(
+                page * (selectRowsPP ? rowsPerPage : defaultRowsPP),
+                page * (selectRowsPP ? rowsPerPage : defaultRowsPP) +
+                  (selectRowsPP ? rowsPerPage : defaultRowsPP)
+              )
+              .map((row) => (
+                <TableRow
+                  key={row._id}
+                  sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
+                >
+                  <TableCell align="left">{row.ticketNum}</TableCell>
+                  <TableCell align="left">{row.issue}</TableCell>
+                  <TableCell align="left">{row.category}</TableCell>
+                  <TableCell align="left">{row.status}</TableCell>
+                  <TableCell align="left">{row.submittedBy}</TableCell>
+                </TableRow>
+              ))}
           </TableBody>
         </Table>
       </TableContainer>
-      <TablePagination 
-        rowsPerPageOptions={[5, 10, 50]}
-        component="div" 
+      <TablePagination
+        rowsPerPageOptions={selectRowsPP && [5, 10, 50]}
+        component="div"
         count={rows.length}
-        rowsPerPage={rowsPerPage}
+        rowsPerPage={selectRowsPP ? rowsPerPage : defaultRowsPP}
         page={page}
         onPageChange={handleOnPageChange}
-        onRowsPerPageChange={handleOnRowsPerPageChange} />
+        onRowsPerPageChange={handleOnRowsPerPageChange}
+      />
     </>
   );
 };
