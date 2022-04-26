@@ -9,13 +9,22 @@ import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
 import Typography from "@mui/material/Typography";
 import Toolbar from "@mui/material/Toolbar";
+import AspectRatioOutlinedIcon from "@mui/icons-material/AspectRatioOutlined";
+import Tooltip from "@mui/material/Tooltip";
+import IconButton from "@mui/material/IconButton";
 
-const CasesByCategory = ({ tickets, categoriesList }) => {
+const CasesByCategory = ({ tickets, categoriesList, expand, setExpand }) => {
   const [categoryStats, setCategoryStats] = useState([]);
 
   const countTicketsByCategory = (category) => {
     return tickets.filter(
       (ticket) => ticket.category.toLowerCase() === category.toLowerCase()
+    ).length;
+  };
+
+  const countTicketsByStatus = (status) => {
+    return tickets.filter(
+      (ticket) => ticket.status.toLowerCase() === status.toLowerCase()
     ).length;
   };
 
@@ -28,7 +37,9 @@ const CasesByCategory = ({ tickets, categoriesList }) => {
     );
     return filterByCategoryAndPriority.length;
   };
-
+  const handleCardExpand = () => {
+    setExpand(!expand);
+  }
   useEffect(() => {
     setCategoryStats(
       categoriesList.map((cat) => {
@@ -46,9 +57,14 @@ const CasesByCategory = ({ tickets, categoriesList }) => {
   return (
     <TableContainer component={Paper}>
       <Toolbar sx={{ backgroundColor: "primary.main" }}>
-        <Typography variant="h6" style={{color:"#f3e5f5"}}>
+        <Typography variant="h6" style={{ color: "#f3e5f5" }}>
           Open Tickets By Category
         </Typography>
+        <Tooltip title="expand">
+          <IconButton onClick={handleCardExpand}>
+            <AspectRatioOutlinedIcon sx={{ color: "#f3e5f5" }} />
+          </IconButton>
+        </Tooltip>
       </Toolbar>
       <Table sx={{ minWidth: 650 }} stickyHeader={true}>
         <TableHead>
@@ -70,6 +86,23 @@ const CasesByCategory = ({ tickets, categoriesList }) => {
               <TableCell align="center">{cat.unreviewed}</TableCell>
             </TableRow>
           ))}
+          <TableRow>
+            <TableCell align="left" style={{ fontWeight: "bold" }}>
+              Totals
+            </TableCell>
+            <TableCell align="center" style={{ fontWeight: "bold" }}>
+              {tickets.length}
+            </TableCell>
+            <TableCell align="center" style={{ fontWeight: "bold" }}>
+              {countTicketsByStatus("escalated")}
+            </TableCell>
+            <TableCell align="center" style={{ fontWeight: "bold" }}>
+              {countTicketsByStatus("in progress")}
+            </TableCell>
+            <TableCell align="center" style={{ fontWeight: "bold" }}>
+              {countTicketsByStatus("unreviewed")}
+            </TableCell>
+          </TableRow>
         </TableBody>
       </Table>
     </TableContainer>

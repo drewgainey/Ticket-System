@@ -10,6 +10,8 @@ const Home = () => {
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(10);
   const [categoriesList, setCategoriesList] = useState([]);
+  const [cardOneExpand, setCardOneExpand] = useState(false);
+  const [cardTwoExpand, setCardTwoExpand] = useState(false);
   const pageTitle = "Open Tickets";
 
   const handleOnPageChange = (e, newPage) => {
@@ -36,29 +38,39 @@ const Home = () => {
   return (
     <>
       <NavBar pageTitle={pageTitle} />
-      <Grid container spacing={2} style={{ margin: "20px auto"}}>
-        <Grid item xs={6}>
-          <Card variant="outlined">
-            <CasesByCategory 
-              tickets={tickets}
-              categoriesList={categoriesList}/>
-          </Card>
-        </Grid>
-        <Grid item xs={6}>
-          <Card variant="outlined">
-            <OpenTickets
-              tickets={tickets}
-              page={page}
-              handleOnPageChange={handleOnPageChange}
-              rowsPerPage={rowsPerPage}
-              handleOnRowsPerPageChange={handleOnRowsPerPageChange}
-              title="Open Tickets Listing"
-              selectRowsPP={false}
-              defaultRowsPP={10}
-            />
-          </Card>
-        </Grid>
+      <div style={{marginRight: "20px"}}>
+      <Grid container spacing={2} style={{ margin: "10px 0px 10px auto" }}>
+        {!cardTwoExpand && (
+          <Grid item xs={cardOneExpand? 12 : 6}>
+            <Card variant="outlined">
+              <CasesByCategory
+                tickets={tickets}
+                categoriesList={categoriesList}
+                expand={cardOneExpand}
+                setExpand={setCardOneExpand}
+              />
+            </Card>
+          </Grid>
+        )}
+        {!cardOneExpand && (
+          <Grid item xs={cardTwoExpand? 12 : 6}>
+            <Card variant="outlined">
+              <OpenTickets
+                tickets={tickets}
+                page={page}
+                handleOnPageChange={handleOnPageChange}
+                rowsPerPage={rowsPerPage}
+                handleOnRowsPerPageChange={handleOnRowsPerPageChange}
+                title="Open Tickets Listing"
+                defaultRowsPP={10}
+                expand={cardTwoExpand}
+                setExpand={setCardTwoExpand}
+              />
+            </Card>
+          </Grid>
+        )}
       </Grid>
+      </div>
     </>
   );
 };

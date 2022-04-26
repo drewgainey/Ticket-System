@@ -7,19 +7,13 @@ import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
 import TablePagination from "@mui/material/TablePagination";
-import Typography from "@mui/material/Typography";
-import Toolbar from "@mui/material/Toolbar";
-import AspectRatioOutlinedIcon from "@mui/icons-material/AspectRatioOutlined";
-import Tooltip from "@mui/material/Tooltip";
-import IconButton from "@mui/material/IconButton";
 
-const OpenTickets = ({
+const AllTickets = ({
   tickets,
   page,
   handleOnPageChange,
   rowsPerPage,
   handleOnRowsPerPageChange,
-  title,
   defaultRowsPP,
   expand,
   setExpand
@@ -37,23 +31,11 @@ const OpenTickets = ({
   const rows = tickets.map((ticket) => {
     return createData(ticket);
   });
-  const handleCardExpand = () => {
-    setExpand(!expand);
-  }
+
 
   return (
     <>
       <TableContainer component={Paper}>
-        <Toolbar sx={{ backgroundColor: "primary.main" }}>
-          <Typography variant="h6" style={{ color: "#f3e5f5" }}>
-            {title}
-          </Typography>
-          <Tooltip title="expand">
-          <IconButton onClick={handleCardExpand}>
-            <AspectRatioOutlinedIcon sx={{ color: "#f3e5f5" }} />
-          </IconButton>
-        </Tooltip>
-        </Toolbar>
         <Table sx={{ minWidth: 650 }} stickyHeader={true}>
           <TableHead>
             <TableRow>
@@ -99,4 +81,4 @@ const OpenTickets = ({
   );
 };
 
-export default OpenTickets;
+export default AllTickets;
