@@ -8,15 +8,15 @@ import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
 import TablePagination from "@mui/material/TablePagination";
 
+
 const AllTickets = ({
   tickets,
   page,
   handleOnPageChange,
   rowsPerPage,
   handleOnRowsPerPageChange,
-  defaultRowsPP,
-  expand,
-  setExpand
+  filterCategory,
+  issueFilter
 }) => {
   const createData = ({
     ticketNum,
@@ -28,10 +28,10 @@ const AllTickets = ({
   }) => {
     return { ticketNum, issue, category, status, submittedBy, _id };
   };
+
   const rows = tickets.map((ticket) => {
     return createData(ticket);
   });
-
 
   return (
     <>
@@ -43,16 +43,21 @@ const AllTickets = ({
               <TableCell align="left">Issue</TableCell>
               <TableCell align="left">Category</TableCell>
               <TableCell align="left">Status</TableCell>
+              <TableCell align="left">Assigned To</TableCell>
               <TableCell align="left">Submitted By</TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
             {rows
-              .slice(
-                page * (expand ? rowsPerPage : defaultRowsPP),
-                page * (expand ? rowsPerPage : defaultRowsPP) +
-                  (expand ? rowsPerPage : defaultRowsPP)
-              )
+              .filter((ticket) => {
+                if (!filterCategory) return true;
+                return ticket.category === filterCategory;
+              })
+              .filter((ticket) => {
+                  if(issueFilter === '') return true;
+                  return ticket.issue.toLowerCase().includes(issueFilter.toLowerCase());
+              })
+              .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
               .map((row) => (
                 <TableRow
                   key={row._id}
@@ -62,21 +67,22 @@ const AllTickets = ({
                   <TableCell align="left">{row.issue}</TableCell>
                   <TableCell align="left">{row.category}</TableCell>
                   <TableCell align="left">{row.status}</TableCell>
+                  <TableCell align="left"> </TableCell>
                   <TableCell align="left">{row.submittedBy}</TableCell>
                 </TableRow>
               ))}
           </TableBody>
         </Table>
+        <TablePagination
+          rowsPerPageOptions={[5, 10, 50]}
+          component="div"
+          count={rows.length}
+          rowsPerPage={rowsPerPage}
+          page={page}
+          onPageChange={handleOnPageChange}
+          onRowsPerPageChange={handleOnRowsPerPageChange}
+        />
       </TableContainer>
-      <TablePagination
-        rowsPerPageOptions={expand && [5, 10, 50]}
-        component="div"
-        count={rows.length}
-        rowsPerPage={expand ? rowsPerPage : defaultRowsPP}
-        page={page}
-        onPageChange={handleOnPageChange}
-        onRowsPerPageChange={handleOnRowsPerPageChange}
-      />
     </>
   );
 };

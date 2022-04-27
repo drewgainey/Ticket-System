@@ -5,6 +5,7 @@ import CasesByCategory from "../components/CasesByCategory";
 import Grid from "@mui/material/Grid";
 import Card from "@mui/material/Card";
 
+
 const Home = () => {
   const [tickets, setTickets] = useState([]);
   const [page, setPage] = useState(0);
@@ -38,8 +39,8 @@ const Home = () => {
   return (
     <>
       <NavBar pageTitle={pageTitle} />
-      <div style={{marginRight: "20px"}}>
-      <Grid container spacing={2} style={{ margin: "10px 0px 10px auto" }}>
+      <div style={{marginRight: "20px" }}>
+      <Grid container spacing={2} style={{ margin: "10px 0px 10px auto"}}>
         {!cardTwoExpand && (
           <Grid item xs={cardOneExpand? 12 : 6}>
             <Card variant="outlined">
