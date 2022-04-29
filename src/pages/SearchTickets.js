@@ -11,6 +11,8 @@ const SearchTicket = () => {
   const [rowsPerPage, setRowsPerPage] = useState(10);
   const [filterCategory, setFilterCategory] = useState(null);
   const [issueFilter, setIssueFilter] = useState("");
+  const [statusFilter, setStatusFilter] = useState(null);
+  const [userTicketsOnly, setUserTicketsOnly] = useState(false);
 
   const handleOnPageChange = (e, newPage) => {
     setPage(newPage);
@@ -42,6 +44,9 @@ const SearchTicket = () => {
         setCategoriesValue={setFilterCategory}
         issueValue={issueFilter}
         setIssueValue={setIssueFilter}
+        statusValue={statusFilter}
+        setStatusValue={setStatusFilter}
+        setUserTicketsOnly={setUserTicketsOnly}
       />
         <AllTickets
           tickets={tickets}
@@ -51,6 +56,8 @@ const SearchTicket = () => {
           handleOnRowsPerPageChange={handleOnRowsPerPageChange}
           filterCategory={filterCategory}
           issueFilter={issueFilter}
+          statusFilter={statusFilter}
+          userTicketsOnly={userTicketsOnly}
         />
     </>
   );

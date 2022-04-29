@@ -1,4 +1,5 @@
 import React from "react";
+import { useAuth } from "../contexts/AuthContext";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
 import TableCell from "@mui/material/TableCell";
@@ -8,7 +9,6 @@ import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
 import TablePagination from "@mui/material/TablePagination";
 
-
 const AllTickets = ({
   tickets,
   page,
@@ -16,8 +16,12 @@ const AllTickets = ({
   rowsPerPage,
   handleOnRowsPerPageChange,
   filterCategory,
-  issueFilter
+  issueFilter,
+  statusFilter,
+  userTicketsOnly,
 }) => {
+  const { currentUser } = useAuth();
+
   const createData = ({
     ticketNum,
     issue,
@@ -54,8 +58,20 @@ const AllTickets = ({
                 return ticket.category === filterCategory;
               })
               .filter((ticket) => {
-                  if(issueFilter === '') return true;
-                  return ticket.issue.toLowerCase().includes(issueFilter.toLowerCase());
+                if (issueFilter === "") return true;
+                return ticket.issue
+                  .toLowerCase()
+                  .includes(issueFilter.toLowerCase());
+              })
+              .filter((ticket) => {
+                if (!statusFilter) return true;
+                return (
+                  ticket.status.toLowerCase() === statusFilter.toLowerCase()
+                );
+              })
+              .filter((ticket) => {
+                  if(!userTicketsOnly) return true;
+                  return ticket.submittedBy === currentUser.email;
               })
               .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
               .map((row) => (
