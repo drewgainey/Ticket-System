@@ -41,8 +41,8 @@ const SignUp = ({
     if (password !== passwordConfirm) {
       return setError('Passwords Do Not Match');
     }
-    if(registrationCode === '') {
-      return setError('Please Enter Your Registration Code');
+    if(registrationCode !== 'DEMO2022') {
+      return setError('Registration Code Is Invalid');
     }
 
     try {

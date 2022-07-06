@@ -9,11 +9,14 @@ const SearchTicket = () => {
   const [categoriesList, setCategoriesList] = useState(["loading"]);
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(10);
+  const [ticketNumFilter, setTicketNumFilter] = useState("");
   const [filterCategory, setFilterCategory] = useState(null);
   const [issueFilter, setIssueFilter] = useState("");
   const [statusFilter, setStatusFilter] = useState(null);
+  const [assignedToFilter, setAssignedToFilter] = useState(null);
+  const [submittedByFilter, setSubmittedByFilter] = useState("");
   const [userTicketsOnly, setUserTicketsOnly] = useState(false);
-
+  const pageTitle = "Olshan Properties Systems Support";
   const handleOnPageChange = (e, newPage) => {
     setPage(newPage);
   };
@@ -24,41 +27,48 @@ const SearchTicket = () => {
   };
 
   useEffect(() => {
-    fetch("http://localhost:3001/api/tickets")
+    fetch("https://ticketing-system-backend.herokuapp.com/api/tickets")
       .then((res) => res.json())
-      .then((data) => setTickets(data));
+      .then((data) => {
+        setTickets(data);
+      });
   }, []);
 
   useEffect(() => {
-    fetch("http://localhost:3001/api/categories")
+    fetch("https://ticketing-system-backend.herokuapp.com/api/categories")
       .then((res) => res.json())
       .then((data) => setCategoriesList(data));
   }, []);
 
+
   return (
     <>
-      <NavBar />
-      <TicketSearchBar
+      <NavBar pageTitle={pageTitle} />
+      <TicketSearchBar setUserTicketsOnly={setUserTicketsOnly} />
+      <AllTickets
+        tickets={tickets}
+        page={page}
+        handleOnPageChange={handleOnPageChange}
+        rowsPerPage={rowsPerPage}
+        handleOnRowsPerPageChange={handleOnRowsPerPageChange}
+        filterCategory={filterCategory}
+        issueFilter={issueFilter}
+        statusFilter={statusFilter}
+        userTicketsOnly={userTicketsOnly}
+        issueValue={issueFilter}
+        setIssueValue={setIssueFilter}
         categories={categoriesList}
         categoriesValue={filterCategory}
         setCategoriesValue={setFilterCategory}
-        issueValue={issueFilter}
-        setIssueValue={setIssueFilter}
         statusValue={statusFilter}
         setStatusValue={setStatusFilter}
-        setUserTicketsOnly={setUserTicketsOnly}
+        assignedToValue={assignedToFilter}
+        setAssignedToValue={setAssignedToFilter}
+        submittedByValue={submittedByFilter}
+        setSubmittedByValue={setSubmittedByFilter}
+        ticketNumValue={ticketNumFilter}
+        setTicketNumValue={setTicketNumFilter}
       />
-        <AllTickets
-          tickets={tickets}
-          page={page}
-          handleOnPageChange={handleOnPageChange}
-          rowsPerPage={rowsPerPage}
-          handleOnRowsPerPageChange={handleOnRowsPerPageChange}
-          filterCategory={filterCategory}
-          issueFilter={issueFilter}
-          statusFilter={statusFilter}
-          userTicketsOnly={userTicketsOnly}
-        />
     </>
   );
 };

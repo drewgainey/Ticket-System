@@ -13,7 +13,7 @@ const Home = () => {
   const [categoriesList, setCategoriesList] = useState([]);
   const [cardOneExpand, setCardOneExpand] = useState(false);
   const [cardTwoExpand, setCardTwoExpand] = useState(false);
-  const pageTitle = "Open Tickets";
+  const pageTitle = "Olshan Properties Systems Support";
 
   const handleOnPageChange = (e, newPage) => {
     setPage(newPage);
@@ -25,13 +25,13 @@ const Home = () => {
   };
 
   useEffect(() => {
-    fetch("http://localhost:3001/api/tickets")
+    fetch("https://ticketing-system-backend.herokuapp.com/api/tickets")
       .then((res) => res.json())
       .then((data) => setTickets(data));
   }, []);
 
   useEffect(() => {
-    fetch("http://localhost:3001/api/categories")
+    fetch("https://ticketing-system-backend.herokuapp.com/api/categories")
       .then((res) => res.json())
       .then((data) => setCategoriesList(data));
   }, []);

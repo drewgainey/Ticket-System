@@ -48,7 +48,7 @@ const CasesByCategory = ({ tickets, categoriesList, expand, setExpand }) => {
           open: countTicketsByCategory(cat),
           escalated: countTicketsByCategoryAndStatus(cat, "escalated"),
           inProgress: countTicketsByCategoryAndStatus(cat, "In Progress"),
-          unreviewed: countTicketsByCategoryAndStatus(cat, "unreviewed"),
+          unreviewed: countTicketsByCategoryAndStatus(cat, "Not Started"),
         };
       })
     );
@@ -73,7 +73,7 @@ const CasesByCategory = ({ tickets, categoriesList, expand, setExpand }) => {
             <TableCell align="center">Open</TableCell>
             <TableCell align="center">Escalated</TableCell>
             <TableCell align="center">In Progress</TableCell>
-            <TableCell align="center">Unreviewed</TableCell>
+            <TableCell align="center">Not Started</TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
@@ -100,7 +100,7 @@ const CasesByCategory = ({ tickets, categoriesList, expand, setExpand }) => {
               {countTicketsByStatus("in progress")}
             </TableCell>
             <TableCell align="center" style={{ fontWeight: "bold" }}>
-              {countTicketsByStatus("unreviewed")}
+              {countTicketsByStatus("Not Started")}
             </TableCell>
           </TableRow>
         </TableBody>

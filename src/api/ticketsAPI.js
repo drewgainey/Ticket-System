@@ -1,7 +1,7 @@
-const rootURL = "http://localhost:3001/api";
+const rootURL = "https://ticketing-system-backend.herokuapp.com/api";
 
 export const addNewTicket = async (
-  ticketNum,
+  nextTicketNumber,
   dateSubmitted,
   issue,
   issueDetails,
@@ -12,7 +12,7 @@ export const addNewTicket = async (
   const response = await fetch(`${rootURL}/tickets`, {
     method: "POST",
     body: JSON.stringify({
-      ticketNum: ticketNum,
+      ticketNum: nextTicketNumber,
       dateSubmitted: dateSubmitted,
       issue: issue,
       issueDetails: issueDetails,

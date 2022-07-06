@@ -26,13 +26,13 @@ export function NewTicket(props) {
   const { currentUser } = useAuth();
 
   useEffect(() => {
-    fetch("http://localhost:3001/api/categories")
+    fetch("https://ticketing-system-backend.herokuapp.com/api/categories")
       .then((res) => res.json())
       .then((data) => setCategoriesList(data));
   }, []);
 
   useEffect(() => {
-    fetch("http://localhost:3001/api/tickets")
+    fetch("https://ticketing-system-backend.herokuapp.com/api/tickets")
       .then((res) => res.json())
       .then((data) => {
         setNextTicketNumber(

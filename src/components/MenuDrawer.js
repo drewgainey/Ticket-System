@@ -34,12 +34,6 @@ const MenuDrawer = ({ menuOpen, closeMenu }) => {
         <ListItemButton component={Link} to="/search">
           <ListItemText primary="Search Tickets" />
         </ListItemButton>
-        <ListItemButton>
-          <ListItemText primary="Ticket Manager" />
-        </ListItemButton>
-        <ListItemButton>
-          <ListItemText primary="User Manager" />
-        </ListItemButton>
         <ListItemButton onClick={handleLogOut}>
           <ListItemText primary="Log Out" />
         </ListItemButton>
